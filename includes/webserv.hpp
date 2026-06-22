@@ -14,6 +14,7 @@
 #include <vector>
 #include <cstdlib>
 #include <cstdio>
+#include <csignal>
 
 #include "utils/error/Error.hpp"
 #include "utils/print.hpp"

@@ -1,10 +1,7 @@
 #ifndef ERROR_HPP
     #define ERROR_HPP
 
-#include <iostream>
-#include <cstdlib>
-#include <cstdio>
-#include <unistd.h>
+#include "webserv.hpp"
 
 enum ErrorType
 {

@@ -1,8 +1,7 @@
 #ifndef PRINT_HPP
     #define PRINT_HPP
 
-#include <iostream>
-#include <map>
+#include "webserv.hpp"
 
 template <typename K, typename V>
 void printMap(const std::map<K, V> &map)
