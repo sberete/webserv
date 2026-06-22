@@ -8,13 +8,11 @@
 
 enum ErrorType
 {
-    // fatales → perror + exit
     ERR_SOCKET,
     ERR_BIND,
     ERR_LISTEN,
     ERR_POLL,
 
-    // non-fatales → log (+ close fd si fourni)
     ERR_ACCEPT,
     ERR_RECV,
     ERR_SEND,
