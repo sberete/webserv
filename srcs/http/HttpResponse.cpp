@@ -26,6 +26,12 @@ void HttpResponse::setStatus(HttpStatus status)
     statusText = httpStatusText(status);
 }
 
+void HttpResponse::setStatus(int code, std::string const& text)
+{
+    statusCode = code;
+    statusText = text;
+}
+
 void HttpResponse::setBody(std::string content)
 {
     body = content;

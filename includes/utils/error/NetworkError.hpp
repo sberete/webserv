@@ -1,5 +1,5 @@
-#ifndef ERROR_HPP
-    #define ERROR_HPP
+#ifndef NETWORKERROR_HPP
+    #define NETWORKERROR_HPP
 
 #include "webserv.hpp"
 

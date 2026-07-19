@@ -10,4 +10,11 @@ void printMap(const std::map<K, V> &map)
         std::cout << it->first << ": " << it->second << std::endl;
 }
 
+template <typename T>
+void printVector(const std::vector<T> &values)
+{
+    for (typename std::vector<T>::const_iterator it = values.begin(); it != values.end(); ++it)
+        std::cout << *it << std::endl;
+}
+
 #endif

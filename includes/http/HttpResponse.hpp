@@ -18,6 +18,7 @@ class HttpResponse
         std::map<std::string, std::string> headers;
 
         void setStatus(HttpStatus status);
+        void setStatus(int code, std::string const& text);
         void setBody(std::string content);
         std::string toString() const;
 };

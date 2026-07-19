@@ -1,4 +1,4 @@
-#include "utils/error/Error.hpp"
+#include "utils/error/NetworkError.hpp"
 
 static const char *getErrorMessage(ErrorType type)
 {

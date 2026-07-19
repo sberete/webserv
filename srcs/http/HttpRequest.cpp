@@ -3,7 +3,7 @@
 HttpRequest::HttpRequest() {}
 
 HttpRequest::HttpRequest(const HttpRequest &other)
-    : method(other.method), path(other.path), version(other.version),
+    : method(other.method), path(other.path), query(other.query), version(other.version),
       body(other.body), headers(other.headers) {}
 
 HttpRequest &HttpRequest::operator=(const HttpRequest &other)
@@ -12,6 +12,7 @@ HttpRequest &HttpRequest::operator=(const HttpRequest &other)
     {
         method = other.method;
         path = other.path;
+        query = other.query;
         version = other.version;
         body = other.body;
         headers = other.headers;
@@ -31,8 +32,17 @@ void HttpRequest::parse(const std::string &rawHttpRequest)
     size_t secondSpace = requestLine.find(' ', firstSpace + 1);
 
     this->method  = requestLine.substr(0, firstSpace);
-    this->path    = requestLine.substr(firstSpace + 1, secondSpace - firstSpace - 1);
+    std::string target = requestLine.substr(firstSpace + 1, secondSpace - firstSpace - 1);
     this->version = requestLine.substr(secondSpace + 1);
+
+    size_t queryPos = target.find('?');
+    if (queryPos == std::string::npos)
+        this->path = target;
+    else
+    {
+        this->path = target.substr(0, queryPos);
+        this->query = target.substr(queryPos + 1);
+    }
 
     currentPos = lineEnd + 2;
     while (true)
@@ -40,7 +50,10 @@ void HttpRequest::parse(const std::string &rawHttpRequest)
         lineEnd = rawHttpRequest.find("\r\n", currentPos);
         std::string headerLine = rawHttpRequest.substr(currentPos, lineEnd - currentPos);
         if (headerLine.empty())
+        {
+            currentPos = lineEnd + 2;
             break;
+        }
         size_t colonPos = headerLine.find(':');
         std::string headerKey = headerLine.substr(0, colonPos);
         std::string headerValue = headerLine.substr(colonPos + 1);
@@ -49,4 +62,5 @@ void HttpRequest::parse(const std::string &rawHttpRequest)
         this->headers[headerKey] = headerValue;
         currentPos = lineEnd + 2;
     }
+    this->body = rawHttpRequest.substr(currentPos);
 }

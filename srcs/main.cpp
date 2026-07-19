@@ -1,8 +1,23 @@
-#include "network/Server.hpp"
+#include "network/server/Server.hpp"
+#include "config/Config.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
-    Server server;
+    if (argc > 2)
+        return 1;
 
-    server.run();
+    setupSignalHandlers();
+
+    try
+    {
+        Config config(argc == 2 ? argv[1] : "config/default.conf");
+        Server server(config.getServers());
+        server.run();
+        std::cout << "webserv: shutting down" << std::endl;
+    }
+    catch (std::exception const& e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
 }
