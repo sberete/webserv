@@ -21,3 +21,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 }
+
+// Trous mandatory restants : client_max_body_size, upload de fichier (POST hors CGI), redirection HTTP en config, Transfer-Encoding: chunked
+// Point avec ton camarade — où il en est sur listing/cookies/DELETE réel

@@ -1,1 +1,26 @@
-Alo
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Demo GET vers un CGI</h1>
+  <a href="/cgi-bin/exgpt_verdict.py">Lancer l'analyse</a>
+
+  <h1>Demo POST : upload de fichier</h1>
+  <input type="file" id="fileInput">
+  <button onclick="upload()">Uploader</button>
+  <p id="uploadResult"></p>
+
+  <script>
+    function upload() {
+      const file = document.getElementById('fileInput').files[0];
+      if (!file) {
+        alert('Choisis un fichier d\'abord.');
+        return;
+      }
+      fetch('/uploads/' + file.name, { method: 'POST', body: file })
+        .then(r => r.text())
+        .then(text => { document.getElementById('uploadResult').textContent = text; })
+        .catch(err => { document.getElementById('uploadResult').textContent = 'Erreur : ' + err; });
+    }
+  </script>
+</body>
+</html>
