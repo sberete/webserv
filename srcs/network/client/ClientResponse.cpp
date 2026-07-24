@@ -63,10 +63,35 @@ HttpResponse Client::_handleUpload(std::string const& filePath) const
     return response;
 }
 
+HttpResponse Client::_handleDelete(std::string const& filePath) const
+{
+    HttpResponse response;
+
+    if (_request.path.find("..") != std::string::npos)
+    {
+        _serveErrorPage(HTTP_403, response);
+        return response;
+    }
+
+    if (std::remove(filePath.c_str()) == 0)
+    {
+        response.setStatus(HTTP_204);
+        return response;
+    }
+
+    if (errno == ENOENT)
+        _serveErrorPage(HTTP_404, response);
+    else
+        _serveErrorPage(HTTP_500, response);
+    return response;
+}
+
 HttpResponse Client::_buildHttpResponse() const
 {
     if (_request.method == "POST")
         return _handleUpload(_config->getRoot() + _request.path);
+    if (_request.method == "DELETE")
+        return _handleDelete(_config->getRoot() + _request.path);
 
     HttpResponse response;
     std::string filePath = _config->getRoot() + (_request.path == "/" ? "/" + _config->getIndex() : _request.path);

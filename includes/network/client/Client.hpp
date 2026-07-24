@@ -43,6 +43,7 @@ class Client
         bool _sendFailed();
         HttpResponse _buildHttpResponse() const;
         HttpResponse _handleUpload(std::string const& filePath) const;
+        HttpResponse _handleDelete(std::string const& filePath) const;
         void _serveErrorPage(HttpStatus status, HttpResponse &response) const;
         bool _isMethodAllowed(Location const& location, std::string const& method) const;
         bool _findCgiHandler(Location const* location, std::string &outInterpreter, std::string &outScriptPath) const;

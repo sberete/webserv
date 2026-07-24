@@ -9,6 +9,11 @@
   <button onclick="upload()">Uploader</button>
   <p id="uploadResult"></p>
 
+  <h1>Demo DELETE : supprimer un fichier</h1>
+  <input type="text" id="deleteInput" placeholder="nom du fichier, ex: photo.png">
+  <button onclick="remove()">Supprimer</button>
+  <p id="deleteResult"></p>
+
   <script>
     function upload() {
       const file = document.getElementById('fileInput').files[0];
@@ -18,8 +23,25 @@
       }
       fetch('/uploads/' + file.name, { method: 'POST', body: file })
         .then(r => r.text())
-        .then(text => { document.getElementById('uploadResult').textContent = text; })
+        .then(text => {
+          document.getElementById('uploadResult').textContent = text;
+          document.getElementById('deleteInput').value = file.name;
+        })
         .catch(err => { document.getElementById('uploadResult').textContent = 'Erreur : ' + err; });
+    }
+
+    function remove() {
+      const name = document.getElementById('deleteInput').value;
+      if (!name) {
+        alert('Indique un nom de fichier d\'abord.');
+        return;
+      }
+      fetch('/uploads/' + name, { method: 'DELETE' })
+        .then(r => {
+          const text = r.status === 204 ? 'Supprimé.' : 'Statut ' + r.status;
+          document.getElementById('deleteResult').textContent = text;
+        })
+        .catch(err => { document.getElementById('deleteResult').textContent = 'Erreur : ' + err; });
     }
   </script>
 </body>
